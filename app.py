@@ -1,15 +1,17 @@
 # app.py - a minimal flask api using flask_restful
 from flask import Flask
 from flask_restful import Resource, Api
+from redis import Redis
 
 app = Flask(__name__)
 api = Api(app)
+redis = Redis(host='redis', port=6379)
 
-class HelloWorld(Resource):
-    def get(self):
-        return {'hello': 'world'}
+@app.route('/')
+def hello():
+    redis.incr('hits')
+    return 'This Compose/Flask demo has been viewed %s time(s).' % redis.get('hits')
 
-api.add_resource(HelloWorld, '/')
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)

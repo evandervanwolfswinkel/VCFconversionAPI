@@ -1,18 +1,29 @@
 import vcf
+import pickle
 
-vcf_reader = vcf.Reader(open('/home/rick/Documents/Data-intergratie/data/gnomad.exomes.r2.1.1.sites.Y.vcf', 'r'))
-id = []
-freq = []
+vcf_reader = vcf.Reader(open('gnomad.exomes.r2.1.1.sites.Y.vcf', 'r'))
+
+dicts = []
 try:
     for record in vcf_reader:
         number = str(record.INFO['AF']).strip("[]").replace("e-", "")
         number = float(number)
-        if float(number) >= float(0.01):
-            print(number)
-            id.append(str(record.ID))
-            freq.append(str(record.INFO['AF']).strip("[]"))
+        if float(number) <= float(0.01):
+            #print(number)
+            dict = {}
+            dict[str(record.POS)] = [str(record.REF),str(record.ALT),
+                                     str(record.INFO['AF']).strip("[]"),
+                                     str(record.ID)]
+            dicts.append(dict)
+
 
 except:
         pass
         print("faulty")
-print(len(freq))
+
+print(dicts)
+
+
+outfile = open('pos2varinfo','wb')
+pickle.dump(dicts,outfile)
+outfile.close()
