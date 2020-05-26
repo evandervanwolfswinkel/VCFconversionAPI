@@ -1,17 +1,28 @@
 import csv
 import pickle
+import os
+from settings import APP_STATIC
 
-
-def main():
-    input_csv_dict_list = readCSV('testinput.csv')
-    searchVariant(input_csv_dict_list)
+def main(inputcsv):
+    input_csv_dict_list = readCSV2(inputcsv)
+    result = searchVariant(input_csv_dict_list)
+    return result
 
 def openVarDict(filename):
     ## Open dictionary with variants of specific chromosome
-    infile = open(filename, 'rb')
-    var_dict = pickle.load(infile)
-    infile.close()
+    with open(os.path.join(APP_STATIC, filename), 'rb') as file:
+        var_dict = pickle.load(file)
+        file.close()
     return var_dict
+
+def readCSV2(inputfile):
+    ## Read CSV input file
+    input_csv_dict_list = []
+    for list in inputfile:
+        csvdict = {}
+        csvdict[list[0]] = [list[1], list[2]]
+        input_csv_dict_list.append(csvdict)
+    return(input_csv_dict_list)
 
 def readCSV(inputfile):
     ## Read CSV input file
@@ -31,11 +42,13 @@ def searchVariant(input):
         for key, value in dict.items():
             pos = value[0]
             inputnucl = value[1]
-            var_dict = openVarDict(key)
-            values = var_dict.get(pos)
-            result = [inputnucl, values]
-            results.append(result)
-    print(results)
+            try:
+                var_dict = openVarDict(str(key))
+                values = var_dict.get(pos)
+                result = [inputnucl, values]
+                results.append(result)
+            except FileNotFoundError:
+                print("Error: File not found")
     return results
 
 if __name__ == '__main__':

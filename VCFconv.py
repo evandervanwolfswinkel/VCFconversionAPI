@@ -22,6 +22,6 @@ except:
         print("faulty")
 
 print(dicts)
-outfile = open('Y', 'wb')
+outfile = open('static/Y', 'wb')
 pickle.dump(dicts,outfile)
 outfile.close()
