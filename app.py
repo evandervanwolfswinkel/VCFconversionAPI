@@ -1,16 +1,11 @@
 # app.py - a minimal flask api using flask_restful
 import codecs
 import csv
-import io
-import os
-from http import HTTPStatus
-
-import pandas as pd
 import flask
 from flask import Flask, render_template, request, url_for, jsonify
 from flask_restful import Resource, Api
 from redis import Redis
-from werkzeug.utils import secure_filename
+
 
 import searchVariants
 
