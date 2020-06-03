@@ -1,4 +1,4 @@
 flask
 flask_restful
 redis
-psycopg2
+psycopg2-binary
