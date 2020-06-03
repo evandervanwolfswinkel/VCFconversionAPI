@@ -4,7 +4,7 @@ import os
 from settings import APP_STATIC
 
 def main(inputcsv):
-    input_csv_dict_list = readCSV2(inputcsv)
+    input_csv_dict_list = readCSV(inputcsv)
     result = searchVariant(input_csv_dict_list)
     return result
 
@@ -15,7 +15,7 @@ def openVarDict(filename):
         file.close()
     return var_dict
 
-def readCSV2(inputfile):
+def readCSV(inputfile):
     ## Read CSV input file
     input_csv_dict_list = []
     for list in inputfile:
@@ -24,16 +24,6 @@ def readCSV2(inputfile):
         input_csv_dict_list.append(csvdict)
     return(input_csv_dict_list)
 
-def readCSV(inputfile):
-    ## Read CSV input file
-    input_csv_dict_list = []
-    with open(inputfile) as csv_file:
-        csv_reader = csv.DictReader(csv_file)
-        for line in csv_reader:
-            csvdict = {}
-            csvdict[str(list(line.values())[0])] = [str(list(line.values())[1]), str(list(line.values())[2])]
-            input_csv_dict_list.append(csvdict)
-    return(input_csv_dict_list)
 
 def searchVariant(input):
     ## Search variants from input file and return values
