@@ -5,8 +5,6 @@ import flask
 from flask import Flask, render_template, request, url_for, jsonify
 from flask_restful import Resource, Api
 from redis import Redis
-
-
 import searchVariants
 
 app = Flask(__name__)
