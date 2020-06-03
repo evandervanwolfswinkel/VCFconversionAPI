@@ -20,7 +20,7 @@ conn = psycopg2.connect(database=url.path[1:],
 try:
     cursor = conn.cursor()
     query = "INSERT INTO variants(ChromType, PickleData) VALUES (%s, %s)"
-    cursor.execute(query, ("Y",psycopg2.Binary(picklefile),))
+    cursor.execute(query, ("X", psycopg2.Binary(picklefile),))
     conn.commit()
     cursor.close()
     conn.close()

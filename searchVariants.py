@@ -2,7 +2,6 @@ import csv
 import pickle
 import os
 from settings import APP_STATIC
-import loadDB
 
 def main(inputcsv):
     input_csv_dict_list = readCSV(inputcsv)
@@ -11,8 +10,9 @@ def main(inputcsv):
 
 def openVarDict(filename):
     ## Open dictionary with variants of specific chromosome
-    var_dict = loadDB.main(filename)
-    print(var_dict)
+    with open(os.path.join(APP_STATIC, filename), 'rb') as file:
+        var_dict = pickle.load(file)
+        file.close()
     return var_dict
 
 def readCSV(inputfile):
@@ -34,7 +34,6 @@ def searchVariant(input):
             inputnucl = value[1]
             try:
                 var_dict = openVarDict(str(key))
-                print(var_dict)
                 values = var_dict.get(pos)
                 result = [inputnucl, values]
                 results.append(result)
