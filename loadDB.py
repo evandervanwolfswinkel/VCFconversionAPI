@@ -1,7 +1,6 @@
 import os
 import urllib.parse as up
-import psycopg2_binary as pg2
-
+import psycopg2
 import pickle
 import _pickle as cPickle
 
@@ -13,7 +12,7 @@ def main(chromosome):
 def connection():
     up.uses_netloc.append("postgres")
     url = up.urlparse("postgres://gjeciswx:Ax3-QX8t2FGwNnlEEXh5UaQOPTKjQEtn@dumbo.db.elephantsql.com:5432/gjeciswx")
-    conn = pg2.connect(database=url.path[1:],
+    conn = psycopg2.connect(database=url.path[1:],
                             user=url.username,
                             password=url.password,
                             host=url.hostname,
@@ -36,7 +35,7 @@ def retrieveData(conn, chromosome):
         conn.close()
         print("committed!")
         return unpickledList
-    except (Exception, pg2.DatabaseError) as error:
+    except (Exception, psycopg2.DatabaseError) as error:
             print(error)
     finally:
         if conn is not None:
