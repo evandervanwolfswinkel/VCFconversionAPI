@@ -23,17 +23,15 @@ def connection():
 def retrieveData(conn, chromosome):
     try:
         cursor = conn.cursor()
-        query = "SELECT pickledata FROM variants WHERE chromtype = {}".format(chromosome)
+        query = "SELECT pickledata FROM variants WHERE chromtype = '{}'".format(chromosome)
         cursor.execute(query)
         rows = cursor.fetchall()
         for each in rows:
             for pickledStoredList in each:
                 unpickledList = cPickle.loads(pickledStoredList)
-                print(unpickledList)
         conn.commit()
         cursor.close()
         conn.close()
-        print("committed!")
         return unpickledList
     except (Exception, psycopg2.DatabaseError) as error:
             print(error)

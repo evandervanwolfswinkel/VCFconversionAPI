@@ -12,7 +12,6 @@ def main(inputcsv):
 def openVarDict(filename):
     ## Open dictionary with variants of specific chromosome
     var_dict = loadDB.main(filename)
-    print(var_dict)
     return var_dict
 
 def readCSV(inputfile):
@@ -33,13 +32,15 @@ def searchVariant(input):
             pos = value[0]
             inputnucl = value[1]
             try:
+                print(str(key))
                 var_dict = openVarDict(str(key))
-                print(var_dict)
                 values = var_dict.get(pos)
                 result = [inputnucl, values]
                 results.append(result)
             except FileNotFoundError:
                 print("Error: File not found")
+            except Exception:
+                continue
     return results
 
 if __name__ == '__main__':

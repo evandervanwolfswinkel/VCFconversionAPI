@@ -11,17 +11,8 @@ app = Flask(__name__)
 api = Api(app)
 redis = Redis(host='redis', port=6379)
 
-@app.route('/postcsv', methods=['POST'])
-def index():
-    if flask.request.content_type == 'text/csv':
-        f = request.data
-        print(f)
-        results = searchVariants.main(f)
-        return results
-
-
 @app.route('/upload', methods=['POST'])
-def myroute():
+def upload():
     flask_file = request.files['file']
     if not flask_file:
         return 'Upload a CSV file'
