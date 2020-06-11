@@ -4,15 +4,19 @@ import os
 from settings import APP_STATIC
 import loadDB
 
+# Author: Evander van Wolfswinkel & Rick Schoenmaker
+# Script for searching allel variants in human exome chromosomes
+
 def main(inputcsv):
+    ## Main workflow of searchvariants script
     input_csv_dict_list = readCSV(inputcsv)
     result = searchVariant(input_csv_dict_list)
-    return result
+    return result   # Return results JSON
 
 def openVarDict(filename):
     ## Open dictionary with variants of specific chromosome
-    var_dict = loadDB.main(filename)
-    return var_dict
+    var_dict = loadDB.main(filename) # LoadDB column based on filename=chromosome
+    return var_dict     # Return dictionary containing variations
 
 def readCSV(inputfile):
     ## Read CSV input file
@@ -21,7 +25,7 @@ def readCSV(inputfile):
         csvdict = {}
         csvdict[list[0]] = [list[1], list[2]]
         input_csv_dict_list.append(csvdict)
-    return(input_csv_dict_list)
+    return(input_csv_dict_list)  # Return Dictionary of CSV content
 
 
 def searchVariant(input):
@@ -29,11 +33,11 @@ def searchVariant(input):
     results = []
     for dict in input:
         for key, value in dict.items():
-            pos = value[0]
-            inputnucl = value[1]
+            pos = value[0] # Position
+            inputnucl = value[1] # Input nucleotide
             try:
                 print(str(key))
-                var_dict = openVarDict(str(key))
+                var_dict = openVarDict(str(key)) # Open variations dictionary using the key as filename
                 values = var_dict.get(pos)
                 result = [inputnucl, values]
                 results.append(result)
