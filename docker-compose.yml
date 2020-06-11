@@ -1,0 +1,33 @@
+version: '2'
+services:
+    api:
+        build: .
+        ports:
+            - "5000:5000"
+        volumes:
+            - .:/app
+            - ./migrations:/usr/src/app/migrations
+        depends_on:
+            - redis
+            - db
+        environment:
+            STAGE: test
+            SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://gjeciswx:Ax3-QX8t2FGwNnlEEXh5UaQOPTKjQEtn@dumbo.db.elephantsql.com:5432/gjeciswx
+
+    redis:
+        image: redis
+
+
+    db:
+        environment:
+          POSTGRES_USER: gjeciswx
+          POSTGRES_PASSWORD: Ax3-QX8t2FGwNnlEEXh5UaQOPTKjQEtn
+          POSTGRES_DB: gjeciswx
+        image: postgres:latest
+        networks:
+            - default
+        ports:
+            - "5405:5432"
+        restart: always
+        volumes:
+        - ./postgres-data:/var/lib/postgresql/data
